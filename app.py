@@ -3,7 +3,20 @@ import joblib
 import numpy as np
 
 # Load model
-model = joblib.load("fraud_model.pkl")
+
+
+@st.cache_resource
+def load_model():
+    try:
+        return joblib.load("fraud_model.pkl")
+    except Exception:
+        return None
+
+model = load_model()
+
+if model is None:
+    st.stop()
+
 
 st.title("Bank Transaction Fraud Detection System")
 
